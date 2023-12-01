@@ -29,6 +29,8 @@ const NAME = [
 ];
 
 const PHOTO_DESCRIPTION_COUNT = 25;
+const ID_COUNT = 1000;
+const AVATAR_COUNT = 6;
 
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -54,8 +56,8 @@ function createRandomUniqueNumber(min, max) {
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 const generateId1 = createRandomUniqueNumber(1, PHOTO_DESCRIPTION_COUNT);
 const generatePhoto = createRandomUniqueNumber(1, PHOTO_DESCRIPTION_COUNT);
-const generateId2 = createRandomUniqueNumber(1, 1000);
-const generateAvatar = getRandomInteger(1, 6);
+const generateId2 = createRandomUniqueNumber(1, ID_COUNT);
+const generateAvatar = getRandomInteger(1, AVATAR_COUNT);
 
 const createComment = () => ({
   id: generateId2,
@@ -73,3 +75,5 @@ const createDescription = () => ({
 });
 
 const photoDescriptins = Array.from({length: PHOTO_DESCRIPTION_COUNT}, createDescription);
+
+console.log(photoDescriptins);
