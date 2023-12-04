@@ -63,20 +63,26 @@ const generateId1 = createRandomUniqueNumber(FIRST_ID, PHOTO_DESCRIPTION_COUNT);
 const generatePhoto = createRandomUniqueNumber(1, PHOTO_DESCRIPTION_COUNT);
 const generateId2 = createRandomUniqueNumber(FIRST_ID, ID_COUNT);
 const generateAvatar = getRandomInteger(1, AVATAR_COUNT);
+const avatar = `img/avatar-${generateAvatar().svg}`;
+const photo = `photos/${generatePhoto().svg}`;
 
 const createComment = () => ({
   id: generateId2,
-  avatar: 'img/avatar-' + generateAvatar() + '.svg',
+  avatar: avatar,
   message: getRandomArrayElement(MESSAGE),
   name: getRandomArrayElement(NAME)
 });
 
 const createDescription = () => ({
   id: generateId1(),
-  url: 'photos/' + generatePhoto() + '.svg',
+  url: photo,
   description: getRandomArrayElement(DESCRIPTION),
   likes: getRandomInteger(LIKES_MIN_COUNT, LIKES_MAX_COUNT),
   comments: Array.from({length: getRandomInteger(COMMENTS_MIN_COUNT, COMMENTS_MAX_COUNT)}, createComment)
 });
 
-const photoDescriptins = Array.from({length: PHOTO_DESCRIPTION_COUNT}, createDescription);
+const photoDescriptions = function () {
+  return Array.from({length: PHOTO_DESCRIPTION_COUNT}, createDescription);
+};
+
+photoDescriptions();
