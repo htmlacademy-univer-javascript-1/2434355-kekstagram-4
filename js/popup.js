@@ -1,6 +1,6 @@
 import {createDescription} from './data.js';
 
-const pictureListElement = document.querySelector('.pictures  container');
+const pictureListElement = document.querySelector('.pictures');
 const similarPictureTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
