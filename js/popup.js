@@ -9,8 +9,7 @@ const descriptions = createDescription();
 
 const picturesListFragment = document.createDocumentFragment();
 
-descriptions.forEach(({id, url, description, likes, comments})
-=> {
+descriptions.forEach(({url, description, likes, comments}) => {
   const pictureElement = similarPictureTemplate.cloneNode(true);
   pictureElement.src = url;
   pictureElement.alt = description;
