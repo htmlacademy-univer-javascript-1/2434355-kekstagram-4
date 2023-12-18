@@ -40,3 +40,21 @@ printNumber('ECMAScript 2022');
 printNumber('1 кефир, 0.5 батона');
 printNumber('агент 007');
 printNumber('а я томат');
+
+const toMinutesConversion = function(clockTime) {
+  const hoursAndMinutes = clockTime.split(':');
+  const hours = parseInt(hoursAndMinutes[0], 10);
+  const minutes = parseInt(hoursAndMinutes[1], 10);
+  const timeInMinutes = hours * 60 + minutes;
+  return timeInMinutes;
+};
+
+const isMeetingOnTime = function(startWorkingDay, endWorkingDay, startMeeting, durationOfMeeting) {
+  const startOfDay = toMinutesConversion(startWorkingDay);
+  const endOfDay = toMinutesConversion(endWorkingDay);
+  const startOfMeeting = toMinutesConversion(startMeeting);
+
+  return (startOfMeeting >= startOfDay && (startOfMeeting + durationOfMeeting) <= endOfDay);
+};
+
+isMeetingOnTime('08:00', '17:30', '14:00', 90);
