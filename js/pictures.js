@@ -19,3 +19,4 @@ descriptionsOfPictures.forEach(({url, description, likes, comments}) => {
 });
 
 pictureListElement.appendChild(picturesListFragment);
+
