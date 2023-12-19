@@ -43,8 +43,8 @@ const generateId1 = createRandomUniqueNumber(FIRST_ID, PHOTO_DESCRIPTION_COUNT);
 const generatePhoto = createRandomUniqueNumber(1, PHOTO_DESCRIPTION_COUNT);
 const generateId2 = createRandomUniqueNumber(FIRST_ID, ID_COUNT);
 const generateAvatar = getRandomInteger(1, AVATAR_COUNT);
-const avatar = `img/avatar-${generateAvatar().svg}`;
-const photo = `photos/${generatePhoto().svg}`;
+const avatar = `img/avatar-${generateAvatar.svg}`;
+const photo = `photos/${generatePhoto.svg}`;
 
 const createComment = () => ({
   id: generateId2,
