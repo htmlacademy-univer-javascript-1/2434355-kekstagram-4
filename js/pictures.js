@@ -5,9 +5,9 @@ const pictureTemplate = document.querySelector('#picture')
 
 const createPicture = ({url, description, likes, comments}) => {
   const picture = pictureTemplate.cloneNode(true);
-  picture.querySelector('.picture__img.').src = url;
-  picture.querySelector('.picture__img.').alt = description;
-  picture.querySelector('.picture__likes.').textContent = likes;
+  picture.querySelector('.picture__img').src = url;
+  picture.querySelector('.picture__img').alt = description;
+  picture.querySelector('.picture__likes').textContent = likes;
   picture.querySelector('.picture__comments').textContent = comments.length;
 
   return picture;
@@ -17,10 +17,10 @@ const renderPictures = (pictures) => {
   const picturesListFragment = document.createDocumentFragment();
   pictures.forEach((picture) => {
     const pictureElement = createPicture(picture);
-    picturesListFragment.append(pictureElement);
+    picturesListFragment.appendChild(pictureElement);
   });
 
-  picturesList.append(picturesListFragment);
+  picturesList.appendChild(picturesListFragment);
 };
 
 export {renderPictures};
