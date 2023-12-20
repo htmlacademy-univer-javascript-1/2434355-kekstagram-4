@@ -40,22 +40,18 @@ const COMMENTS_MIN_COUNT = 0;
 const COMMENTS_MAX_COUNT = 30;
 
 const generateId1 = createRandomUniqueNumber(FIRST_ID, PHOTO_DESCRIPTION_COUNT);
-const generatePhoto = createRandomUniqueNumber(1, PHOTO_DESCRIPTION_COUNT);
 const generateId2 = createRandomUniqueNumber(FIRST_ID, ID_COUNT);
-const generateAvatar = getRandomInteger(1, AVATAR_COUNT);
-const avatar = `img/avatar-${generateAvatar().svg}`;
-const photo = `photos/${generatePhoto().svg}`;
-
+const photo = createRandomUniqueNumber(1, PHOTO_DESCRIPTION_COUNT);
 const createComment = () => ({
   id: generateId2,
-  avatar: avatar,
+  avatar:  `img/avatar-${ getRandomInteger(1, AVATAR_COUNT)}.svg`,
   message: getRandomArrayElement(MESSAGE),
   name: getRandomArrayElement(NAME)
 });
 
 const createDescription = () => ({
   id: generateId1(),
-  url: photo,
+  url: `photos/${ photo()}.jpg`,
   description: getRandomArrayElement(DESCRIPTION),
   likes: getRandomInteger(LIKES_MIN_COUNT, LIKES_MAX_COUNT),
   comments: Array.from({length: getRandomInteger(COMMENTS_MIN_COUNT, COMMENTS_MAX_COUNT)}, createComment)
