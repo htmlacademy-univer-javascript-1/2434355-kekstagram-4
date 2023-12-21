@@ -1,54 +1,40 @@
-import {commentInput, hashtagsInput, pristine} from './validation';
+import {pristine} from './validation.js';
 
-const imgUpload = document.querySelector('.img-upload');
 const body = document.querySelector('body');
-const imgUploadForm = imgUpload.querySelector('.img-upload__form');
-const imgUploadInput = imgUpload.querySelector('.img-upload__input');
-const imgUploadOverlay = imgUpload.querySelector('.img-upload__overlay');
-const imgUploadCancel = imgUpload.querySelector('.img-upload__cancel');
-
-const isTextFocused = () =>
-  document.activeElement === commentInput||
-  document.activeElement === hashtagsInput;
-
-const hideEditingForm = () => {
-  imgUploadForm.reset();
-  pristine.reset();
-  imgUploadOverlay.classList.add('hidden');
-  body.classList.remove('modal-open');
-  document.removeEventListener('keydown', onDocumentKeydown);
-  //removeScaleButtons();
-  //removeEffectsChoose();
-};
+const imgUploadForm = document.querySelector('.img-upload__form');
+const imgUploadInput = document.querySelector('.img-upload__input');
+const imgEdit = document.querySelector('.img-upload__overlay');
+const imgUploadCancel = document.querySelector('.img-upload__cancel');
 
 function onDocumentKeydown(evt) {
-  if (evt.key === 'Escape' && !isTextFocused()) {
+  if (evt.key === 'Escape') {
     evt.preventDefault();
     hideEditingForm();
   }
 }
 
-const openEditingForm = () => {
-  imgUploadOverlay.classList.remove('hidden');
-  body.classList.add('modal-open');
-  document.addEventListener('keydown', onDocumentKeydown);
-  //addScale();
-  //addEffects();
-};
-
 const onCancelButtonClick = () => {
   hideEditingForm();
 };
 
-const onImgUploadClick = () => {
+const openEditingForm = () => {
+  body.classList.add('modal-open');
+  imgEdit.classList.remove('hidden');
+  imgUploadCancel.addEventListener('click', onCancelButtonClick);
+  document.addEventListener('keydown', onDocumentKeydown);
+};
+
+function hideEditingForm () {
+  body.classList.remove('modal-open');
+  imgEdit.classList.add('hidden');
+  imgUploadForm.reset();
+  imgUploadCancel.removeEventListener('click', onCancelButtonClick);
+  document.removeEventListener('keydown', onDocumentKeydown);
+}
+
+const onImgUpload = () => {
+  pristine.validate();
   openEditingForm();
 };
 
-const uploadFormSubmit = (evt) => {
-  evt.preventDefault();
-  pristine.validate();
-};
-
-imgUploadInput.addEventListener('change', onImgUploadClick);
-imgUploadCancel.addEventListener('click', onCancelButtonClick);
-imgUploadForm.addEventListener('submit', uploadFormSubmit);
+imgUploadInput.addEventListener('change', onImgUpload);
