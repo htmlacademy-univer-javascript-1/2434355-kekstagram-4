@@ -1,59 +1,18 @@
 const HASHTAGS_MAX_COUNT = 5;
 const HASHTAGS_MAX_LENGTH = 20;
 const COMMENT_MAX_LENGTH = 140;
-
+const VALID_HASHTAG = /^#[a-zа-яё0-9]{1,19}$/i;
 const imgUploadForm = () => document.querySelector('.img-upload__form');
-const hashtagsInput = () => document.querySelector('.text__hashtags');
-const commentInput = document.querySelector('.text__description');
 const uploadPhotoButton = document.querySelector('.img-upload__submit');
-
-const validSymbolsOfhashtag = /^#[a-zа-яё0-9]{1,19}$/i;
-let hashtags = hashtagsInput.value.toLowerCase().split(' ');
+const commentInput = document.querySelector('.text__description');
+const hashtagsInput = document.querySelector('.text__hashtags');
+let error = '';
 
 const pristine = new Pristine(imgUploadForm(), {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'error-message'
 });
-
-const isValidRepeats = () => (new Set(hashtags)).size === hashtags.length;
-
-const isValidQuantity = () => hashtags.length <= HASHTAGS_MAX_COUNT;
-
-const isValidSymbols = () => hashtags.every((el) => validSymbolsOfhashtag.test(el)) || commentInput.value === '';
-
-const areHashtagsValid = () => {
-  hashtags = hashtagsInput().value.toLowerCase().split(' ');
-  for (const hashtag of hashtags) {
-    if (hashtag.length > HASHTAGS_MAX_LENGTH) {
-      return false;
-    }
-  }
-  return isValidRepeats() && isValidQuantity() && isValidSymbols();
-};
-
-const isCommentValid = () => (commentInput.length <= COMMENT_MAX_LENGTH);
-
-const hashtagErrorMessage = () => {
-  if (!isValidRepeats()) {
-    return 'Неправильно заполнены хэштеги: есть повторяющиеся';
-  }
-  if (!isValidQuantity()){
-    return `Неправильно заполнены хэштеги: максимальное количество хэштегов: ${HASHTAGS_MAX_COUNT}`;
-  }
-  if (!isValidSymbols()) {
-    return 'Неправильно заполнены хэштеги: использованы недопустимые символы';
-  }
-};
-
-const commentsErrowMessage = () => {
-  if (!isCommentValid()){
-    return `Количество символов не должно превышать ${COMMENT_MAX_LENGTH}`;
-  }
-};
-
-pristine.addValidator(hashtagsInput, areHashtagsValid, hashtagErrorMessage);
-pristine.addValidator(commentInput, isCommentValid, commentsErrowMessage);
 
 const checkValidation = () => {
   if (!pristine.validate()) {
@@ -63,13 +22,58 @@ const checkValidation = () => {
   }
 };
 
-const onCommentInput = () => {
-  checkValidation();
+const isCommentValid = () => {
+  if (commentInput.length <= COMMENT_MAX_LENGTH){
+    error = `Количество символов не должно превышать ${COMMENT_MAX_LENGTH}`;
+  }
 };
+
+const areHashtagsValid = (value) => {
+  const hashtags = value
+    .split(' ')
+    .filter((tag) => tag !== '')
+    .map((tag) => tag.toLowerCase());
+
+  if (hashtags.length > HASHTAGS_MAX_COUNT) {
+    error = `количество хэштегов не должно превышать ${HASHTAGS_MAX_COUNT}`;
+    return false;
+  }
+
+  for (const hashtag of hashtags) {
+    if (!VALID_HASHTAG.test(hashtag)) {
+      if (hashtag[0] !== '#') {
+        error = 'Хэштег должен начинаться c #';
+      } else if (hashtag.length === 1) {
+        error = '';
+      } else if (hashtag.length > HASHTAGS_MAX_LENGTH) {
+        error = `Хэштег должен быть не длиннее ${HASHTAGS_MAX_LENGTH} символов`;
+      } else {
+        error = 'Использованы недопустимые символы';
+      }
+      return false;
+    }
+  }
+
+  if (hashtags.some((tag) => hashtags.indexOf(tag) !== hashtags.lastIndexOf(tag))) {
+    error = 'Хэштеги не должны повторяться';
+    return false;
+  }
+
+  return true;
+};
+
+const errorMessage = () => error;
 
 const onHashtagInput = () => {
   checkValidation();
 };
+
+const onCommentInput = () => {
+  checkValidation();
+};
+
+pristine.addValidator(hashtagsInput, areHashtagsValid, errorMessage);
+pristine.addValidator(commentInput, isCommentValid, errorMessage);
 
 hashtagsInput.addEventListener('input', onHashtagInput);
 hashtagsInput.addEventListener('keydown', (evt) => evt.stopPropagation());
@@ -77,4 +81,4 @@ hashtagsInput.addEventListener('keydown', (evt) => evt.stopPropagation());
 commentInput.addEventListener('input', onCommentInput);
 commentInput.addEventListener('keydown', (evt) => evt.stopPropagation());
 
-export {commentInput, hashtagsInput, pristine};
+export {pristine};
