@@ -1,16 +1,25 @@
+import {openBigPicture} from './bigPicture.js';
+
 const picturesList = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
 
-const createPicture = ({url, description, likes, comments}) => {
-  const picture = pictureTemplate.cloneNode(true);
-  picture.querySelector('.picture__img').src = url;
-  picture.querySelector('.picture__img').alt = description;
-  picture.querySelector('.picture__likes').textContent = likes;
-  picture.querySelector('.picture__comments').textContent = comments.length;
+const createPicture = (picture) => {
+  const pictureElement = pictureTemplate.cloneNode(true);
+  pictureElement.querySelector('.picture__img').src = picture.url;
+  pictureElement.querySelector('.picture__img').alt = picture.description;
+  pictureElement.querySelector('.picture__likes').textContent = picture.likes;
+  pictureElement.querySelector('.picture__comments').textContent = picture.comments.length;
 
-  return picture;
+  const onPictureClick = (evt) => {
+    evt.preventDefault();
+    openBigPicture(picture);
+  };
+
+  pictureElement.addEventListener('click', onPictureClick);
+
+  return pictureElement;
 };
 
 const renderPictures = (pictures) => {
