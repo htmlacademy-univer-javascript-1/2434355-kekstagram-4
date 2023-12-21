@@ -1,44 +1,88 @@
-const IMG_WIDTH = 35;
-const IMG_HEIGHT = 35;
+const AVATAR_WIDTH = 35;
+const AVATAR_HEIGHT =35;
 const body = document.body;
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
 const bigPictureLikesCount = bigPicture.querySelector('.likes-count');
 const bigPictureCommentsCount = bigPicture.querySelector('.comments-count');
 const bigPictureDescription = bigPicture.querySelector('.social__caption');
+const loadMoreComments = bigPicture.querySelector('.comments-loader');
+const commentsCount = bigPicture.querySelector('.social__comment-count');
+const commentList = bigPicture.querySelector('.social__comments');
+let commentsDisplayed;
+let shownCommentsCount;
+let currentComments;
 
 const createCommentElement = function (comment) {
-  const commentElement = document.createElement('li');
-  commentElement.classList.add('social__comments');
+  const commentContainer = document.createElement('li');
+  commentContainer.classList.add('social__comment');
 
-  const commentImg = document.createElement('img');
-  commentImg.classList.add('social__picture');
-  commentImg.src = comment.avatar;
-  commentImg.alt = comment.name;
-  commentImg.width = IMG_WIDTH;
-  commentImg.height = IMG_HEIGHT;
+  const commentAvatar = document.createElement('img');
+  commentAvatar.classList.add('social__picture');
+  commentAvatar.src = comment.avatar;
+  commentAvatar.alt = comment.name;
+  commentAvatar.width = AVATAR_WIDTH;
+  commentAvatar.height = AVATAR_HEIGHT;
 
   const commentText = document.createElement('p');
   commentText.classList.add('social__text');
   commentText.textContent = comment.message;
 
-  commentElement.append(commentImg);
-  commentElement.append(commentText);
-
-  return commentElement;
+  commentContainer.append(commentAvatar);
+  commentContainer.append(commentText);
+  return commentContainer;
 };
 
-const renderComments = function (comments) {
-  const commentListFragment = document.createDocumentFragment();
-  document.querySelector('.social__comments').innerHTML = '';
-  comments.forEach((comment) => {
-    const commentElement = createCommentElement(comment);
-    commentListFragment.append(commentElement);
-  });
+const showCommentLoadButton = () => {
+  loadMoreComments.classList.remove('hidden');
+};
 
-  bigPicture.querySelector('.social__comments').append(commentListFragment);
-  bigPicture.querySelector('.social__comment-count').classList.add('hidden');
-  bigPicture.querySelector('.comments-loader').classList.add('hidden');
+const hideCommentLoadButton = () => {
+  loadMoreComments.classList.add('hidden');
+};
+
+const showComments = (commentListElement) => {
+  shownCommentsCount = Math.min(shownCommentsCount + 5, commentListElement.length);
+  commentsDisplayed += 5;
+
+  const commentsToShow = commentListElement.slice(commentsDisplayed, shownCommentsCount);
+
+  if (commentsToShow) {
+    commentsToShow.forEach((comment) => {
+      commentList.append(createCommentElement(comment));
+      commentsCount.textContent = `${shownCommentsCount} из ${commentListElement.length} комментариев`;
+    });
+  }
+
+  if (shownCommentsCount === commentListElement.length) {
+    hideCommentLoadButton();
+    commentsDisplayed = 0;
+  }
+};
+
+function showNextComments() {
+  showComments(currentComments);
+}
+
+const renderComments = function (comments) {
+  commentsDisplayed = -5;
+  shownCommentsCount = 0;
+  currentComments = comments;
+  const totalCommentsCount = comments.length;
+  commentList.innerHTML = '';
+
+  if (totalCommentsCount <= 5) {
+    shownCommentsCount = totalCommentsCount;
+    hideCommentLoadButton();
+  }
+  else {
+    showCommentLoadButton();
+    commentsCount.classList.remove('hidden');
+    loadMoreComments.addEventListener('click', showNextComments);
+  }
+  const newMessage = `${shownCommentsCount} из ${totalCommentsCount} комментариев`;
+  commentsCount.textContent = newMessage;
+  commentList.append(showComments(comments));
 };
 
 const renderBigPicture = (picture) => {
@@ -48,27 +92,30 @@ const renderBigPicture = (picture) => {
   bigPictureCommentsCount.textContent = picture.comments.length;
 };
 
+const removeLoadButtonEvent = () => loadMoreComments.removeEventListener('click', showNextComments);
+
 const closeBigPicture = function () {
-  document.querySelector('body').classList.remove('modal-open');
+  body.classList.remove('modal-open');
   bigPicture.classList.add('hidden');
   document.querySelector('.big-picture__cancel').removeEventListener('click', closeBigPicture);
+  document.addEventListener('keydown', isEscapeKey);
+  removeLoadButtonEvent();
 };
 
-const isEscapeKey = function(evt) {
+function isEscapeKey (evt) {
   if (evt.key === 'Escape') {
+    evt.preventDefault();
     closeBigPicture();
   }
-};
+}
 
 const openBigPicture = (picture) => {
-  bigPicture.classList.remove('hidden');
-  body.classList.add('modal-open');
-
   renderBigPicture(picture);
   renderComments(picture.comments);
-
-  document.addEventListener('keydown', isEscapeKey);
+  bigPicture.classList.remove('hidden');
+  body.classList.add('modal-open');
   document.querySelector('.big-picture__cancel').addEventListener('click', closeBigPicture);
+  document.addEventListener('keydown', isEscapeKey);
 };
 
 export{openBigPicture};
