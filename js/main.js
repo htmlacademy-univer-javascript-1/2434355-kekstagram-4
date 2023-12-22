@@ -1,6 +1,15 @@
 import './form.js';
-import {photoDescriptions} from './data.js';
-import {renderPictures} from './pictures.js';
 import {getPhotos} from './api.js';
+import {showFilter, hideFilters, filterPictures} from './filters.js';
+import {closeMessage, showServerError } from './service-messages.js';
 
-getPhotos(renderPictures(photoDescriptions()));
+getPhotos()
+  .then((data) => {
+    filterPictures(data);
+    closeMessage();
+    showFilter();
+  })
+  .catch(() => {
+    hideFilters();
+    showServerError();
+  });
