@@ -1,4 +1,7 @@
 import {pristine} from './validation.js';
+import {hideSlider, initEffect, updateImgEffect, DEFAULT} from './effects.js';
+import { updateScale } from './scale.js';
+
 
 const body = document.querySelector('body');
 const imgUploadForm = document.querySelector('.img-upload__form');
@@ -20,6 +23,12 @@ const onCancelButtonClick = () => {
 const openEditingForm = () => {
   body.classList.add('modal-open');
   imgEdit.classList.remove('hidden');
+
+  initEffect(DEFAULT);
+  updateScale();
+  updateImgEffect();
+  hideSlider();
+
   imgUploadCancel.addEventListener('click', onCancelButtonClick);
   document.addEventListener('keydown', onDocumentKeydown);
 };
