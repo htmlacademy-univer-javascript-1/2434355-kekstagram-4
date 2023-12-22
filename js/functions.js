@@ -58,3 +58,4 @@ const isMeetingOnTime = function(startWorkingDay, endWorkingDay, startMeeting, d
 };
 
 isMeetingOnTime('08:00', '17:30', '14:00', 90);
+
