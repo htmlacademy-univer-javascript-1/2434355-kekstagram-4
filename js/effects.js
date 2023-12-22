@@ -107,6 +107,8 @@ const updateImgEffect = () => {
   }
 };
 
+hideSlider();
+
 const initEffect = (effect) => {
   effectElement = effect;
 };
