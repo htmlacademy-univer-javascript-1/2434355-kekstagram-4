@@ -11,6 +11,7 @@ let error = '';
 const pristine = new Pristine(imgUploadForm(), {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
+  errorTextTag: 'div',
   errorTextClass: 'error-message'
 });
 

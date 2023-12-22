@@ -1,5 +1,6 @@
 import './form.js';
+import {getPhotos} from './api.js';
 import {photoDescriptions} from './data.js';
 import {renderPictures} from './pictures.js';
 
-renderPictures(photoDescriptions());
+getPhotos(renderPictures(photoDescriptions()));
