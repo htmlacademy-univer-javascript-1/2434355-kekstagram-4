@@ -1,13 +1,14 @@
 import {pristine} from './validation.js';
 import {hideSlider, initEffect, updateImgEffect, DEFAULT} from './effects.js';
-import { updateScale } from './scale.js';
-
-
+import {updateScale} from './scale.js';
+import {sendPhotoForm} from './api.js';
 const body = document.querySelector('body');
 const imgUploadForm = document.querySelector('.img-upload__form');
 const imgUploadInput = document.querySelector('.img-upload__input');
 const imgEdit = document.querySelector('.img-upload__overlay');
 const imgUploadCancel = document.querySelector('.img-upload__cancel');
+
+imgUploadForm.addEventListener('submit', sendPhotoForm);
 
 function onDocumentKeydown(evt) {
   if (evt.key === 'Escape') {
@@ -16,6 +17,15 @@ function onDocumentKeydown(evt) {
   }
 }
 
+const clearForm = () => {
+  imgUploadForm.reset();
+  initEffect(DEFAULT);
+  updateScale();
+  updateImgEffect();
+  hideSlider();
+};
+
+
 const onCancelButtonClick = () => {
   hideEditingForm();
 };
@@ -23,20 +33,18 @@ const onCancelButtonClick = () => {
 const openEditingForm = () => {
   body.classList.add('modal-open');
   imgEdit.classList.remove('hidden');
-
-  initEffect(DEFAULT);
-  updateScale();
-  updateImgEffect();
-  hideSlider();
-
   imgUploadCancel.addEventListener('click', onCancelButtonClick);
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
-function hideEditingForm () {
+function hideEditingForm (clear = true) {
   body.classList.remove('modal-open');
   imgEdit.classList.add('hidden');
-  imgUploadForm.reset();
+
+  if (clear) {
+    clearForm();
+  }
+
   imgUploadCancel.removeEventListener('click', onCancelButtonClick);
   document.removeEventListener('keydown', onDocumentKeydown);
 }
@@ -47,3 +55,5 @@ const onImgUpload = () => {
 };
 
 imgUploadInput.addEventListener('change', onImgUpload);
+
+export {openEditingForm, hideEditingForm};
