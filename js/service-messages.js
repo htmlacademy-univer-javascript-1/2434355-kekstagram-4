@@ -8,10 +8,6 @@ const closeMessage = () => {
   document.body.removeChild(document.body.lastChild);
 };
 
-const onSuccessCloseClick = () => {
-  closeMessage();
-};
-
 const onErrorEscKeydown = (evt) => {
   if (evt.key === 'Escape') {
     evt.preventDefault();
@@ -30,6 +26,10 @@ const onSuccessEscKeydown = (evt) => {
     evt.preventDefault();
     closeMessage();
   }
+};
+
+const onSuccessCloseClick = () => {
+  closeMessage();
 };
 
 const showServerError = () => {
