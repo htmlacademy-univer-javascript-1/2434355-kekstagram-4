@@ -1,6 +1,6 @@
 import {pristine} from './validation.js';
 import {hideSlider, initEffect, updateImgEffect, DEFAULT} from './effects.js';
-import {updateScale, MAX_SCALE_VALUE} from './scale.js';
+import {updateScale} from './scale.js';
 import {sendPhotoForm} from './api.js';
 import {showUploadError, showSuccessUpload} from './service-messages.js';
 import {selectPicture} from './user-photo.js';

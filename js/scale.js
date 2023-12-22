@@ -34,4 +34,4 @@ const onIncreaseClick = () => {
 scaleButtonSmaller.addEventListener('click', onDecreaseClick);
 scaleButtonBigger.addEventListener('click', onIncreaseClick);
 
-export {updateScale,};
+export {updateScale};
