@@ -3,7 +3,7 @@ import {hideSlider, initEffect, updateImgEffect, DEFAULT} from './effects.js';
 import {updateScale} from './scale.js';
 import {sendPhotoForm} from './api.js';
 import {showUploadError, showSuccessUpload} from './service-messages.js';
-
+import {selectPicture} from './user-photo.js';
 
 const body = document.querySelector('body');
 const imgUploadForm = document.querySelector('.img-upload__form');
@@ -11,6 +11,7 @@ const imgUploadInput = document.querySelector('.img-upload__input');
 const imgEdit = document.querySelector('.img-upload__overlay');
 const imgUploadCancel = document.querySelector('.img-upload__cancel');
 const submitButton = document.querySelector('#upload-submit');
+const imgPreview = imgEdit.querySelector('.img-upload__preview').children[0];
 
 imgUploadForm.addEventListener('submit', (evt) => {
   submitButton.setAttribute('disabled', '');
@@ -61,6 +62,7 @@ function hideEditingForm (clear = true) {
 
 const onImgUpload = () => {
   pristine.validate();
+  selectPicture(imgUploadInput, imgPreview);
   openEditingForm();
 };
 

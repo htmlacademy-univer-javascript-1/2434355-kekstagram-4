@@ -7,6 +7,7 @@ const scaleInput = imgEdit.querySelector('.scale__control--value');
 const scaleButtonSmaller = imgEdit.querySelector('.scale__control--smaller');
 const scaleButtonBigger = imgEdit.querySelector('.scale__control--bigger');
 let scaleElement = MAX_SCALE_VALUE;
+
 const changeImageScale = () => {
   imgPreview.style.transform = `scale(${scaleElement / 100})`;
 };
