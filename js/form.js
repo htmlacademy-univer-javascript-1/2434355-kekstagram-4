@@ -55,5 +55,6 @@ const onImgUpload = () => {
 };
 
 imgUploadInput.addEventListener('change', onImgUpload);
+document.removeEventListener('keydown', onDocumentKeydown);
 
 export {openEditingForm, hideEditingForm};

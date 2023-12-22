@@ -208,25 +208,25 @@
     </a>
   </template>
 
-   <!-- Сообщение с ошибкой загрузки изображения -->
-   <template id="error">
+  <template id="server_error">
+    <div class="server_error">
+      <div class="error_content">
+        <div class="error_text">
+          <p>Ой-ой...что-то пошло не так</p>
+          <p>Попробуйте позже</p>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <!-- Сообщение с ошибкой загрузки изображения -->
+  <template id="error">
     <section class="error">
       <div class="error__inner">
         <h2 class="error__title">Ошибка загрузки файла</h2>
         <button type="button" class="error__button">Загрузить другой файл</button>
       </div>
     </section>
-  </template>
-
-  <template id="server_error">
-    <div class="server_error">
-      <div class="error_content">
-        <div class="error_text">
-          <p>При загрузке данных с сервера произошла ошибка.</p>
-          <p>Попробуйте позже</p>
-        </div>
-      </div>
-    </div>
   </template>
 
   <!-- Сообщение об успешной загрузке изображения -->
@@ -243,6 +243,7 @@
   <template id="messages">
     <div class="img-upload__message  img-upload__message--loading">Загружаем...</div>
   </template>
+
   <script src="./nouislider/nouislider.js"></script>
   <script src="./pristine/pristine.js"></script>
   <script src="./js/main.js" type="module"></script>

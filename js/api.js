@@ -1,34 +1,25 @@
-import {showServerError, closeMessage, showUploadError, showSuccessUpload} from './service-messages.js';
-
-const getPhotos = (renderPictures) => {
-  fetch('https://29.javascript.pages.academy/kekstagram/data')
-    .then((resolve) => {
-      closeMessage();
-      return resolve.json();
-    })
-    .then((data) => renderPictures(data))
-    .catch(() => showServerError());
-};
+const getPhotos = () => fetch('https://29.javascript.pages.academy/kekstagram/data')
+  .then((response) => response.json())
+  .then((data) => Promise.resolve(data))
+  .catch(() => Promise.reject());
 
 const sendPhotoForm = (evt) => {
   evt.preventDefault();
   const formData = new FormData(evt.target);
-  fetch(
+
+  return fetch(
     'https://29.javascript.pages.academy/kekstagram',
     {
       method: 'POST',
       body: formData
     })
-    .then((resolve) => {
-      if (resolve.ok) {
-        showSuccessUpload();
-      } else {
-        throw new Error();
+    .then((response) => {
+      if (response.ok) {
+        return Promise.resolve();
       }
+      throw new Error();
     })
-    .catch(() => {
-      showUploadError();
-    });
+    .catch(() => Promise.reject());
 };
 
 export {getPhotos, sendPhotoForm};
