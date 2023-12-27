@@ -78,7 +78,6 @@ const sepiaEffect = document.querySelector('#effect-sepia');
 const marvinEffect = document.querySelector('#effect-marvin');
 const phobosEffect = document.querySelector('#effect-phobos');
 const heatEffect = document.querySelector('#effect-heat');
-
 let effectElement = EFFECTS.DEFAULT;
 
 noUiSlider.create(slider, {

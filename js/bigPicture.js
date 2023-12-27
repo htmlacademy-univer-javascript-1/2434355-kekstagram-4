@@ -37,7 +37,6 @@ const createCommentElement = function (comment) {
 const renderComments = function () {
   const commentsListFragment = document.createDocumentFragment();
 
-
   if (currentComments.length < UPLOAD_COMMENTS_COUNT || shownCommentsCount >= currentComments.length) {
     shownCommentsCount = currentComments.length;
     loadMoreComments.classList.add('hidden');
@@ -49,7 +48,6 @@ const renderComments = function () {
   commentsCount.textContent = newMessage;
 
   const startIndex = (shownCommentsCount <= UPLOAD_COMMENTS_COUNT) ? 0 : UPLOAD_COMMENTS_COUNT * Math.floor((shownCommentsCount - 1) / UPLOAD_COMMENTS_COUNT);
-
   for (let i = startIndex; i < shownCommentsCount; i++) {
     commentsListFragment.append(createCommentElement(currentComments[i]));
   }

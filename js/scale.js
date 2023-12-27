@@ -18,10 +18,13 @@ const updateScale = () => {
 };
 
 const onDecreaseClick = () => {
+  updateScale();
   if (scaleElement !== MIN_SCALE_VALUE) {
     scaleElement -= IMAGE_SCALE_STEP;
     updateScale();
   }
+
+  updateScale();
 };
 
 const onIncreaseClick = () => {
@@ -34,4 +37,4 @@ const onIncreaseClick = () => {
 scaleButtonSmaller.addEventListener('click', onDecreaseClick);
 scaleButtonBigger.addEventListener('click', onIncreaseClick);
 
-export {updateScale};
+export {updateScale, MAX_SCALE_VALUE};

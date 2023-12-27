@@ -36,7 +36,6 @@ const clearForm = () => {
   hideSlider();
 };
 
-
 const onCancelButtonClick = () => {
   hideEditingForm();
 };
