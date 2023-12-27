@@ -44,6 +44,7 @@ const onCancelButtonClick = () => {
 const openEditingForm = () => {
   body.classList.add('modal-open');
   imgEdit.classList.remove('hidden');
+  updateScale();
   imgUploadCancel.addEventListener('click', onCancelButtonClick);
   document.addEventListener('keydown', onDocumentKeydown);
 };
