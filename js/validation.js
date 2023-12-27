@@ -77,7 +77,6 @@ const onCommentInput = () => {
   checkValidation();
 };
 
-
 pristine.addValidator(hashtagsInput, areHashtagsValid, errorMessage);
 pristine.addValidator(commentInput, isCommentValid, errorMessage);
 

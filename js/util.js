@@ -1,3 +1,5 @@
+const TIME_OUT_DELAY = 500;
+
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -33,7 +35,7 @@ const getRandomArrayElementsInAmount = (list, amount) => {
   return randomPictures;
 };
 
-const debounce = (callback, timeoutDelay = 500) => {
+const debounce = (callback, timeoutDelay = TIME_OUT_DELAY) => {
   let timeoutId;
 
   return (...rest) => {
