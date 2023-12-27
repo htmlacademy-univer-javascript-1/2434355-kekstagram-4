@@ -1,4 +1,7 @@
-const getPhotos = () => fetch('https://29.javascript.pages.academy/kekstagram/data')
+const GET_PHOTOS_LINK = 'https://29.javascript.pages.academy/kekstagram/data';
+const SEND_PHOTOS_LINK = 'https://29.javascript.pages.academy/kekstagram';
+
+const getPhotos = () => fetch(GET_PHOTOS_LINK)
   .then((response) => response.json())
   .then((data) => Promise.resolve(data))
   .catch(() => Promise.reject());
@@ -8,7 +11,7 @@ const sendPhotoForm = (evt) => {
   const formData = new FormData(evt.target);
 
   return fetch(
-    'https://29.javascript.pages.academy/kekstagram',
+    SEND_PHOTOS_LINK,
     {
       method: 'POST',
       body: formData
