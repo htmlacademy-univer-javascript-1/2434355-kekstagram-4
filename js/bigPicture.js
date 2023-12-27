@@ -16,19 +16,16 @@ let currentComments = [];
 
 const createCommentElement = function (comment) {
   const newComment = document.createElement('li');
-  newComment.classList.add('social__comment');
-
   const commentAvatar = document.createElement('img');
+  const commentText = document.createElement('p');
+  newComment.classList.add('social__comment');
   commentAvatar.classList.add('social__picture');
   commentAvatar.src = comment.avatar;
   commentAvatar.alt = comment.name;
   commentAvatar.width = AVATAR_WIDTH;
   commentAvatar.height = AVATAR_HEIGHT;
-
-  const commentText = document.createElement('p');
   commentText.classList.add('social__text');
   commentText.textContent = comment.message;
-
   newComment.append(commentAvatar);
   newComment.append(commentText);
   return newComment;
@@ -36,7 +33,8 @@ const createCommentElement = function (comment) {
 
 const renderComments = function () {
   const commentsListFragment = document.createDocumentFragment();
-
+  const newMessage = `${shownCommentsCount} из ${currentComments.length} комментариев`;
+  const startIndex = (shownCommentsCount <= UPLOAD_COMMENTS_COUNT) ? 0 : UPLOAD_COMMENTS_COUNT * Math.floor((shownCommentsCount - 1) / UPLOAD_COMMENTS_COUNT);
 
   if (currentComments.length < UPLOAD_COMMENTS_COUNT || shownCommentsCount >= currentComments.length) {
     shownCommentsCount = currentComments.length;
@@ -45,10 +43,7 @@ const renderComments = function () {
     loadMoreComments.classList.remove('hidden');
   }
 
-  const newMessage = `${shownCommentsCount} из ${currentComments.length} комментариев`;
   commentsCount.textContent = newMessage;
-
-  const startIndex = (shownCommentsCount <= UPLOAD_COMMENTS_COUNT) ? 0 : UPLOAD_COMMENTS_COUNT * Math.floor((shownCommentsCount - 1) / UPLOAD_COMMENTS_COUNT);
 
   for (let i = startIndex; i < shownCommentsCount; i++) {
     commentsListFragment.append(createCommentElement(currentComments[i]));
