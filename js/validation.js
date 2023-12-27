@@ -19,14 +19,18 @@ const checkValidation = () => {
   if (!pristine.validate()) {
     uploadPhotoButton.setAttribute('disabled', '');
   } else {
+    pristine.reset();
     uploadPhotoButton.removeAttribute('disabled');
   }
 };
 
-const isCommentValid = () => {
-  if (commentInput.length <= COMMENT_MAX_LENGTH){
+const isCommentValid = (value) => {
+  if (value.length > COMMENT_MAX_LENGTH){
     error = `Количество символов не должно превышать ${COMMENT_MAX_LENGTH}`;
+    return false;
   }
+
+  return true;
 };
 
 const areHashtagsValid = (value) => {
@@ -45,7 +49,7 @@ const areHashtagsValid = (value) => {
       if (hashtag[0] !== '#') {
         error = 'Хэштег должен начинаться c #';
       } else if (hashtag.length === 1) {
-        error = '';
+        error = 'Хэштег не должен быть пустым';
       } else if (hashtag.length > HASHTAGS_MAX_LENGTH) {
         error = `Хэштег должен быть не длиннее ${HASHTAGS_MAX_LENGTH} символов`;
       } else {
@@ -72,6 +76,7 @@ const onHashtagInput = () => {
 const onCommentInput = () => {
   checkValidation();
 };
+
 
 pristine.addValidator(hashtagsInput, areHashtagsValid, errorMessage);
 pristine.addValidator(commentInput, isCommentValid, errorMessage);
