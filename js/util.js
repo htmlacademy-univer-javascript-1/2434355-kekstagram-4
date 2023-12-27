@@ -21,5 +21,26 @@ function createRandomUniqueNumber(min, max) {
 
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
-export {getRandomArrayElement, createRandomUniqueNumber, getRandomInteger};
+const getRandomArrayElementsInAmount = (list, amount) => {
+  const randomPictures = [];
+  for (let i = 0; i < amount; i++) {
+    let randomPicture = getRandomArrayElement(list);
+    while (randomPictures.includes(randomPicture)) {
+      randomPicture = getRandomArrayElement(list);
+    }
+    randomPictures.push(randomPicture);
+  }
+  return randomPictures;
+};
+
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+export {getRandomArrayElement, createRandomUniqueNumber, getRandomInteger, debounce, getRandomArrayElementsInAmount};
 
