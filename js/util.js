@@ -12,7 +12,6 @@ const getRandomInteger = (a, b) => {
 
 function createRandomUniqueNumber(min, max) {
   const previousValues = [];
-
   return function () {
     currentValue = getRandomInteger(min, max);
     while (previousValues.includes(currentValue)) {
